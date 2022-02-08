@@ -1,0 +1,9 @@
+projectType : runtime
+slackChannel : data-weave-bot
+enableSlackSuccessNotifications : true
+enableSlackFailedTestsNotifications : true
+enableAllureTestReportStage : false
+enableMavenDeployStage : false
+enableReleaseStage : false
+mavenSettingsXmlId : "data-weave-maven-settings"
+junitTestResults: "**/target/weavetest-reports/TEST-*.xml"
