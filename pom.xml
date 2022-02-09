@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>1e0dbdda-5cda-4968-a636-0980a2c42cb1</groupId>
+    <artifactId>jwt-module</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+
+
+    <packaging>dw-library</packaging>
+
+    <name>data-weave-jwt</name>
+
+    <properties>
+        <weave.version>2.4.0-20211228</weave.version>
+        <wtf.version>1.0.7-SNAPSHOT</wtf.version>
+        <weave.maven.plugin.version>0.0.8-SNAPSHOT</weave.maven.plugin.version>
+        <exchange.orgId>1e0dbdda-5cda-4968-a636-0980a2c42cb1</exchange.orgId>
+    </properties>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.mule.weave</groupId>
+            <artifactId>runtime</artifactId>
+            <version>${weave.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.weave</groupId>
+            <artifactId>core-modules</artifactId>
+            <version>${weave.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.weave</groupId>
+            <artifactId>java-module</artifactId>
+            <version>${weave.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mule.weave</groupId>
+            <artifactId>wtf</artifactId>
+            <version>${wtf.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/dw</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/dw</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+        </testResources>
+        <plugins>
+            <plugin>
+                <groupId>org.mule.weave</groupId>
+                <artifactId>data-weave-maven-plugin</artifactId>
+                <version>${weave.maven.plugin.version}</version>
+                <extensions>true</extensions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>exchange</id>
+            <name>Devx Exchange</name>
+            <url>https://maven.devx.anypoint.mulesoft.com/api/v3/organizations/${exchange.orgId}/maven</url>
+        </repository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>mule-releases</id>
+            <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases</url>
+        </repository>
+
+        <repository>
+            <id>mule-snapshots</id>
+            <url>https://repository-master.mulesoft.org/nexus/content/repositories/snapshots</url>
+        </repository>
+        <repository>
+            <id>exchange</id>
+            <name>Devx Exchange</name>
+            <url>https://maven.devx.anypoint.mulesoft.com/api/v3/maven</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>mule-releases</id>
+            <url>https://repository-master.mulesoft.org/nexus/content/repositories/releases</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>mule-snapshots</id>
+            <url>https://repository-master.mulesoft.org/nexus/content/repositories/snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
+</project>
