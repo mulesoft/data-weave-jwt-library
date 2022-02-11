@@ -6,4 +6,4 @@ enableAllureTestReportStage : false
 enableMavenDeployStage : false
 enableReleaseStage : false
 mavenSettingsXmlId : "data-weave-maven-settings"
-junitTestResults: "**/target/weavetest-reports/TEST-*.xml"
+junitTestResults: "**/target/data-weave-test-reports/TEST-*.xml"
