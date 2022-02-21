@@ -18,6 +18,13 @@
         <wtf.version>1.0.7-SNAPSHOT</wtf.version>
         <weave.maven.plugin.version>0.0.8-SNAPSHOT</weave.maven.plugin.version>
         <exchange.orgId>1e0dbdda-5cda-4968-a636-0980a2c42cb1</exchange.orgId>
+
+        <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+        <sonar.sources>src/main/dw,./pom.xml</sonar.sources>
+        <sonar.tests>src/test/dw</sonar.tests>
+        <sonar.coverageReportPaths>target/data-weave-test-reports/coverage/sonar.xml</sonar.coverageReportPaths>
+        <sonar.verbose>true</sonar.verbose>
+        <sonar.python.file.suffixes>.dwl</sonar.python.file.suffixes>
     </properties>
 
     <dependencies>
@@ -71,6 +78,12 @@
                 <artifactId>data-weave-maven-plugin</artifactId>
                 <version>${weave.maven.plugin.version}</version>
                 <extensions>true</extensions>
+                <configuration>
+                    <tests>
+                        <coverageEnabled>true</coverageEnabled>
+                        <coverageFormat>sonar</coverageFormat>
+                    </tests>
+                </configuration>
             </plugin>
         </plugins>
     </build>
