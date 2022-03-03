@@ -1,6 +1,6 @@
 # DataWeave JWT Library
 
-This library provides functionality to create signed JSON Web Tokens. The following formats are currently support:
+This library provides functionality to create signed JSON Web Tokens. The following formats are currently supported:
 
 * HS256
 * HS384
