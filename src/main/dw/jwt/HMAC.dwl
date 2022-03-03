@@ -1,5 +1,5 @@
 /**
-* This library provides functionality to create signed JSON Web Tokens using HMAC.
+* This module provides functionality to create signed JSON Web Tokens using HMAC.
 */
 %dw 2.0
 import HMACBinary from dw::Crypto
