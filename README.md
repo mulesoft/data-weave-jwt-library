@@ -1,6 +1,6 @@
-# DataWeave JWT Module
+# DataWeave JWT Library
 
-This module provides functionality to create signed JSON Web Tokens. The following formats are currently support:
+This library provides functionality to create signed JSON Web Tokens. The following formats are currently support:
 
 * HS256
 * HS384
