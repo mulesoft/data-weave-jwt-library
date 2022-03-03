@@ -1,5 +1,5 @@
 /**
-* This module provides functionality to create signed JSON Web Tokens using RSA signatures.
+* This library provides functionality to create signed JSON Web Tokens using RSA signatures.
 */
 %dw 2.0
 import java!RSAHelper
