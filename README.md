@@ -1,6 +1,6 @@
 # DataWeave JWT Library
 
-This library provides functionality to create signed JSON Web Tokens. The following formats are currently supported:
+This library provides functionality to create signed JSON web tokens. The following formats are currently supported:
 
 * HS256
 * HS384
@@ -55,21 +55,21 @@ HMAC::JWT({
 - HS384
 - HS512
 
-_*NOTE: Header `typ` and `alg` keys will be added/overriden automatically*_
+_*NOTE: Header `typ` and `alg` keys are added or overridden automatically.*_
 
 ### JWT(header: Object, payload: Object, signingKey: String, algorithm: String): String
 
-Returns a signed JSON web token with the specified `header` and `payload` (body), signed using `signingKey` and algorithm specified by `algorithm`.
+Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using `signingKey`, and the algorithm is specified by `algorithm`.
 __________________________________________
 
 ### JWT(header: Object, payload: Object, signingKey: String): String
 
-Returns a signed JSON web token with the specified `header` and `payload` (body), signed using `signingKey` via the HMAC-SHA256 (HS256) algorithm.
+Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using `signingKey` through the HMAC-SHA256 (HS256) algorithm.
 __________________________________________
 
 ### JWT(payload: Object, signingKey: String): String
 
-Returns a signed JSON web token with the specified `payload` (body), signed using `signingKey` via the HMAC-SHA256 (HS256) algorithm. Header is defaulted as `{ "alg": "HS256", "typ": "JWT" }`
+Returns a signed JSON web token with the specified `payload` (body). It is signed using `signingKey` through the HMAC-SHA256 (HS256) algorithm. The header default is `{ "alg": "HS256", "typ": "JWT" }`.
 __________________________________________
 
 # jwt::RSA Functions
@@ -80,14 +80,14 @@ __________________________________________
 - RS384
 - RS512
 
-_*NOTE: Header `typ` and `alg` keys will be added/overriden automatically*_
+_*NOTE: Header `typ` and `alg` keys are added or overridden automatically.*_
 
 
 ### JWT(header: Object, payload: Object, privateKey: String, algorithm: String): String
 
-Returns a signed JSON web token with the specified `header` and `payload` (body), signed using PKCS#1 or PKCS#8 `privateKey` and algorithm specified by `algorithm`.
+Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using the PKCS#1 or PKCS#8 `privateKey` through the algorithm specified by `algorithm`.
 __________________________________________
 
 ### JWT(payload: Object, privateKey: String): String
 
-Returns a signed JSON web token with the specified `header` and `payload` (body), signed using PKCS#1 or PKCS#8 `privateKey` and algorithm HMAC-SHA256.
+Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using the PKCS#1 or PKCS#8 `privateKey` through the algorithm HMAC-SHA256.
