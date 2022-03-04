@@ -13,7 +13,7 @@ var algMapping = {
 }
 
 /**
-* Helper function to validate signing algorithm.
+* Helper function to validate algorithm provided for signing.
 */
 fun alg(algorithm: String) : String | Null =
     algMapping[algorithm] default fail('Invalid algorithm provided for signing')
@@ -32,10 +32,10 @@ fun signJWT(content: String, key: String, alg: String) : String =
 * [%header, cols="1,1,3"]
 * |===
 * | Name | Type | Description
-* | header | Object | JWT header
-* | payload | Object | JWT payload
-* | signingKey | String | Signing key
-* | algorithm | String | HMAC algorithm
+* | `header` | `Object` | JWT header.
+* | `payload` | `Object` | JWT payload.
+* | `signingKey` | `String` | Signing key.
+* | `algorithm` | `String` | HMAC algorithm.
 * |===
 *
 * === Example
@@ -79,16 +79,16 @@ fun JWT(header: Object, payload: Object, signingKey: String, algorithm: String) 
 }
 
 /**
-* Generate JWT with header, payload, and signed with HMAC-SHA256
+* Generate JWT with a header, payload, and key signed with HMAC-SHA256.
 *
 * === Parameters
 *
 * [%header, cols="1,1,3"]
 * |===
 * | Name | Type | Description
-* | header | Object | JWT header
-* | payload | Object | JWT paylaod
-* | signingKey | String | Signing key
+* | `header` | `Object` | JWT header.
+* | `payload` | `Object` | JWT paylaod.
+* | `signingKey` | `String` | Signing key.
 * |===
 *
 * === Example
@@ -125,15 +125,15 @@ fun JWT(header: Object, payload: Object, signingKey: String) : String = do {
 }
 
 /**
-* Generate JWT with payload and automatically generated header, signed with HMAC-SHA256
+* Generate JWT with a payload, automatically generated header, and key signed with HMAC-SHA256.
 *
 * === Parameters
 *
 * [%header, cols="1,1,3"]
 * |===
 * | Name | Type | Description
-* | payload | Object | JWT payload
-* | signingKey | String | Signing key
+* | `payload` | `Object` | JWT payload.
+* | `signingKey` | `String` | Signing key.
 * |===
 *
 * === Example
