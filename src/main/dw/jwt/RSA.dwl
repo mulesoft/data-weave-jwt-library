@@ -13,7 +13,7 @@ var algMapping = {
 }
 
 /**
-* Helper function to validate signing algorithm.
+* Helper function to validate the algorithm provided for signing.
 */
 fun alg(algorithm: String) : String | Null =
     algMapping[algorithm] default fail('Invalid algorithm provided for signing')
@@ -31,17 +31,17 @@ fun signJWT(jwt: String, privateKey: String, algorithm: String) : String =
     RSAHelper::signString(jwt, privateKey, algorithm)
 
 /**
-* Generate JWT with header, payload and signature by specific algorithm.
+* Generate JWT with header, payload, and signature by specific algorithm.
 *
 * === Parameters
 *
 * [%header, cols="1,1,3"]
 * |===
 * | Name | Type | Description
-* | header | Object | JWT header
-* | payload | Object | JWT paylaod
-* | signingKey | String | Signing key
-* | algorithm | String | RSA algorithm
+* | `header` | `Object` | JWT header.
+* | `payload` | `Object` | JWT payload.
+* | `signingKey` | `String` | Signing key.
+* | `algorithm` | `String` | RSA algorithm.
 * |===
 *
 * === Example
@@ -93,15 +93,15 @@ fun JWT(header: Object, payload: Object, signingKey: String, algorithm: String) 
 }
 
 /**
-* Generate JWT with payload and automatically generated header, signed with RS256
+* Generate JWT with a payload, automatically generated header, and key signed with RS256.
 *
 * === Parameters
 *
 * [%header, cols="1,1,3"]
 * |===
 * | Name | Type | Description
-* | payload | Object | JWT paylaod
-* | signingKey | String | Signing key
+* | `payload` | Object | JWT payload.
+* | `signingKey` | String | Signing key.
 * |===
 *
 * === Example
