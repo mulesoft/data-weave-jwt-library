@@ -19,7 +19,7 @@ import * from jwt::HMAC
             JWT({"header": "value"},
                 {"firstName": "Michael", "lastName": "Jones"},
                 "secret", "HmacSHA384") 
-            must equalTo('eyJoZWFkZXIiOiAidmFsdWUiLCJhbGciOiAiSFMzODQiLCJ0eXAiOiAiSldUIn0.eyJmaXJzdE5hbWUiOiAiTWljaGFlbCIsImxhc3ROYW1lIjogIkpvbmVzIn0.9phLXWyZz53QYO6bmYw9mXwEmdD55bnzIjGwYKYLXhFoTBpjiYfMgKh2C-s97F65w')
+            must equalTo('eyJoZWFkZXIiOiAidmFsdWUiLCJhbGciOiAiSFMzODQiLCJ0eXAiOiAiSldUIn0.eyJmaXJzdE5hbWUiOiAiTWljaGFlbCIsImxhc3ROYW1lIjogIkpvbmVzIn0.9phLXWyZz53QYO6bmYw9mXwEmdD55bnzIjGwYKYLXhFoTBpjiYfMgKh2C-97F65w')
         },
     ],
 ]

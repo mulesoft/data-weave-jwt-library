@@ -6,6 +6,9 @@ import HMACBinary from dw::Crypto
 import fail from dw::Runtime
 import jwt::Common
 
+/**
+* Supported HMAC algorithms.
+*/
 var algMapping = {
     "HmacSHA256": "HS256",
     "HmacSHA384": "HS384",
@@ -14,12 +17,32 @@ var algMapping = {
 
 /**
 * Helper function to validate algorithm provided for signing.
+*
+* === Parameters
+*
+* [%header, cols="1,1,3"]
+* |===
+* | Name | Type | Description
+* | `algorithm` | `String` | Algorithm provided for signing.
+* |===
+*
 */
 fun alg(algorithm: String) : String | Null =
     algMapping[algorithm] default fail('Invalid algorithm provided for signing')
 
 /**
 * Helper function to sign the JWT.
+*
+* === Parameters
+*
+* [%header, cols="1,1,3"]
+* |===
+* | Name | Type | Description
+* | `content` | `String` | JWT content.
+* | `key` | `String` | Signing key.
+* | `alg` | `String` | HMAC algorithm.
+* |===
+*
 */
 fun signJWT(content: String, key: String, alg: String) : String =
     Common::base64URL(HMACBinary(key as Binary, content as Binary, alg))
