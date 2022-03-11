@@ -6,6 +6,9 @@ import java!RSAHelper
 import jwt::Common
 import fail from dw::Runtime
 
+/**
+* Supported RSA algorithms.
+*/
 var algMapping = {
     "Sha256withRSA": "RS256",
     "Sha384withRSA": "RS384",
@@ -14,18 +17,32 @@ var algMapping = {
 
 /**
 * Helper function to validate the algorithm provided for signing.
+*
+* === Parameters
+*
+* [%header, cols="1,1,3"]
+* |===
+* | Name | Type | Description
+* | `algorithm` | `String` | Algorithm provided for signing.
+* |===
+*
 */
 fun alg(algorithm: String) : String | Null =
     algMapping[algorithm] default fail('Invalid algorithm provided for signing')
 
 /**
-* Helper function to sanitize the key.
-*/
-fun cleanKey(key: String) : String =
-    log(key replace "\n" with "" replace /(-+)(BEGIN|END)(\sRSA)? (PRIVATE|PUBLIC) KEY(-+)/ with "" replace " " with "")
-
-/**
 * Helper function to sign the JWT.
+*
+* === Parameters
+*
+* [%header, cols="1,1,3"]
+* |===
+* | Name | Type | Description
+* | `jwt` | `String` | Header and payload parts of the JWT.
+* | `privateKey` | `String` | Signing key.
+* | `algorithm` | `String` | Algorithm provided for signing.
+* |===
+*
 */
 fun signJWT(jwt: String, privateKey: String, algorithm: String) : String =
     RSAHelper::signString(jwt, privateKey, algorithm)
