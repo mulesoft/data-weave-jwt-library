@@ -91,3 +91,13 @@ __________________________________________
 ### JWT(payload: Object, privateKey: String): String
 
 Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using the PKCS#1 or PKCS#8 `privateKey` through the algorithm HMAC-SHA256.
+
+## Contributions Welcome
+
+Before creating a pull request review the following:
+
+* [LICENSE](LICENSE.txt)
+* [SECURITY](SECURITY.md)
+* [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)
+
+When you submit your pull request, you are asked to sign a contributor license agreement (CLA) if we don't have one on file for you.
