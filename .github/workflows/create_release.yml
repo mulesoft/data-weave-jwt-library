@@ -1,0 +1,92 @@
+name: Create Next Release
+on: 
+  workflow_dispatch:
+
+jobs:
+  create_release_branch:
+    name: "Create Release Branch"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get App Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v1
+        with:
+          application_id: ${{ secrets.APP_ID }}
+          application_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ steps.get_workflow_token.outputs.token }}
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: 'maven'
+      - name: Get version to release
+        id: version
+        run: |
+          mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec
+          echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec | cut -d '-' -f1)
+      - name: Create release branch
+        run: |
+          sed -i "s/<revision>.*<\/revision>/<revision>${{ steps.version.outputs.version }}<\/revision>/" pom.xml
+
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
+          git checkout -b "release/${{ steps.version.outputs.version }}"
+          git add pom.xml
+          git commit -m "Pin release version"
+          git push --set-upstream origin "release/${{ steps.version.outputs.version }}"
+  update_patch:
+    name: "Bump patch on master"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get App Token
+        id: get_workflow_token
+        uses: peter-murray/workflow-application-token-action@v1
+        with:
+          application_id: ${{ secrets.APP_ID }}
+          application_private_key: ${{ secrets.APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ steps.get_workflow_token.outputs.token }}
+      - name: Set up JDK 1.8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+          cache: 'maven'
+      - name: Get Version parts
+        id: version
+        run: |
+          mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec
+          echo ::set-output name=versionMajor::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec | cut -d '-' -f1 | cut -d '.' -f1)
+          echo ::set-output name=versionMinor::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec | cut -d '-' -f1 | cut -d '.' -f2)
+          echo ::set-output name=versionPatch::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec | cut -d '-' -f1 | cut -d '.' -f3)
+      - name: Get Next patch version
+        id: nextVersion
+        run: |
+          echo ::set-output name=version::${{ steps.version.outputs.versionMajor }}.${{ steps.version.outputs.versionMinor }}.$((${{ steps.version.outputs.versionPatch }}+1))-SNAPSHOT
+      
+      - name: Create bump PR
+        run: |
+          git checkout -b "bump/${{ steps.nextVersion.outputs.version }}"
+          git push --set-upstream origin "bump/${{ steps.nextVersion.outputs.version }}"
+
+          sed -i "s/<revision>.*<\/revision>/<revision>${{ steps.nextVersion.outputs.version }}<\/revision>/" pom.xml
+
+          export SHA=$( git rev-parse "bump/${{ steps.nextVersion.outputs.version }}":pom.xml )
+          export CONTENT=$( base64 -i pom.xml )
+          gh api --method PUT /repos/${{ github.repository }}/contents/pom.xml \
+            --field message="Bump Patch version" \
+            --field content="$CONTENT" \
+            --field encoding="base64" \
+            --field branch="bump/${{ steps.nextVersion.outputs.version }}" \
+            --field sha="$SHA"
+
+
+          gh pr create -B master -H "bump/${{ steps.nextVersion.outputs.version }}" -b "Bump master to ${{ steps.nextVersion.outputs.version }}" -t "Bump master to ${{ steps.nextVersion.outputs.version }}"
+        env:
+          GITHUB_TOKEN: ${{ steps.get_workflow_token.outputs.token }}
+
