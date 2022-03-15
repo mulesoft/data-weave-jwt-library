@@ -1,0 +1,44 @@
+name: Deploy DataWeave Library to Exchange
+on:
+  workflow_call:
+    inputs:
+      server-id:
+        required: true
+        type: string
+      mvn-profile:
+        required: true
+        type: string
+      exchange-org-id:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+    secrets:
+      EXCHANGE_USERNAME:
+        required: true
+      EXCHANGE_PASSWORD:
+        required: true
+
+
+jobs:
+  DEPLOY_EXTENSION:
+    name: "Deploy Library"
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up settings for Exchange
+      uses: actions/setup-java@v2
+      with:
+        java-version: '8'
+        distribution: 'adopt'
+        cache: 'maven'
+        server-id: ${{ inputs.server-id }} # Value of the distributionManagement/repository/id field of the pom.xml
+        server-username: EXCHANGE_USERNAME # env variable for username in deploy
+        server-password: EXCHANGE_PASSWORD # env variable for token in deploy
+    - name: Publish to Exchange
+      run: mvn deploy -P ${{ inputs.mvn-profile }} -DskipTests -Dexchange.orgId=${{ inputs.exchange-org-id }}
+      env:
+        EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+        EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
