@@ -1,5 +1,12 @@
 /**
 * This module provides functionality to create signed JSON Web Tokens using RSA signatures.
+*
+* The supported RSA algorithms are:
+*  - RS256
+*  - RS384
+*  - RS512
+*
+* RSA private keys must be in `PKCS#1` or `PKCS#8` format.
 */
 %dw 2.0
 import java!RSAHelper
@@ -70,22 +77,27 @@ fun signJWT(jwt: String, privateKey: String, algorithm: String) : String =
 * [source,DataWeave,linenums]
 * ----
 * %dw 2.0
+* import * from jwt::RSA
+* 
 * output application/json
-* import jwt::RSA
+* input key application/json
 * ---
 * {
-*     token: RSA::JWT(
-*         {
-*             header: "value"
-*         },
-*         {
-*             iss: p('google.clientEmail'),
-*             aud: 'https://oauth2.googleapis.com/token',
-*             scope: 'https://www.googleapis.com/auth/drive.readonly',
-*             iat: now() as Number { unit: 'seconds' },
-*             exp: (now() + |PT3600S|) as Number { unit: 'seconds' }
-*         }, p('google.privateKey'), 'Sha384withRSA'),
-*     expiration: now() + |PT3550S|
+* 	token: JWT(
+*       {
+*           header: "value"
+*       },
+* 		{
+* 			iss: "some@email.com",
+* 			aud: 'https://oauth2.googleapis.com/token',
+* 			scope: 'https://www.googleapis.com/auth/drive.readonly',
+* 			iat: now() as Number { unit: 'seconds' },
+* 			exp: (now() + |PT3600S|) as Number { unit: 'seconds' }
+* 		},
+* 		key,
+*       'Sha384withRSA'
+* 	),
+* 	expiration: now() + |PT3550S|
 * }
 *
 * ----
@@ -130,21 +142,23 @@ fun JWT(header: Object, payload: Object, signingKey: String, algorithm: String) 
 * [source,DataWeave,linenums]
 * ----
 * %dw 2.0
+* import * from jwt::RSA
+* 
 * output application/json
-* import jwt::RSA
+* input key application/json
 * ---
 * {
-*     token: RSA::JWT(
-*         {
-*             iss: p('google.clientEmail'),
-*             aud: 'https://oauth2.googleapis.com/token',
-*             scope: 'https://www.googleapis.com/auth/drive.readonly',
-*             iat: now() as Number { unit: 'seconds' },
-*             exp: (now() + |PT3600S|) as Number { unit: 'seconds' }
-*         },
-*         p('google.privateKey')
-*     ),
-*     expiration: now() + |PT3550S|
+* 	token: JWT(
+* 		{
+* 			iss: "some@email.com",
+* 			aud: 'https://oauth2.googleapis.com/token',
+* 			scope: 'https://www.googleapis.com/auth/drive.readonly',
+* 			iat: now() as Number { unit: 'seconds' },
+* 			exp: (now() + |PT3600S|) as Number { unit: 'seconds' }
+* 		},
+* 		key
+* 	),
+* 	expiration: now() + |PT3550S|
 * }
 *
 * ----

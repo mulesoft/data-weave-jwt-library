@@ -7,11 +7,11 @@
     <groupId>${exchange.orgId}</groupId>
     <artifactId>data-weave-jwt-library</artifactId>
     <version>${revision}</version>
-    <description>DataWeave JWT Library</description>
 
     <packaging>dw-library</packaging>
 
     <name>DataWeave JWT Library</name>
+    <description>JSON Web Token for DataWeave</description>
 
     <properties>
         <revision>0.1.0-SNAPSHOT</revision>
@@ -86,7 +86,7 @@
                     </tests>
                     <docs>
                         <homePage>${project.basedir}/README.md</homePage>
-                        <favicon>${project.basedir}/src/main/resources/favicon/jwt.png</favicon>
+                        <favicon>${project.basedir}/src/main/resources/favicon/key-small.png</favicon>
                     </docs>
                 </configuration>
             </plugin>
