@@ -1,40 +1,10 @@
 # DataWeave JWT Library
 
-This library provides functionality to create signed JSON Web Tokens. The following formats are currently supported:
+This library provides functionality to create signed JSON Web Tokens directly on DataWeave with RSA and HMAC signatures.
 
-* HS256
-* HS384
-* HS512
+## Overview
 
-* RS256
-* RS384
-* RS512
-
-RSA private keys must be in PKCS#1 or PKCS#8 format.
-
-Example RSA usage:
-
-```dataweave
-%dw 2.0
-output application/java
-import jwt::RSA
----
-{
-	token: RSA::JWT(
-		{
-			iss: p('google.clientEmail'),
-			aud: 'https://oauth2.googleapis.com/token',
-			scope: 'https://www.googleapis.com/auth/drive.readonly',
-			iat: now() as Number { unit: 'seconds' },
-			exp: (now() + |PT3600S|) as Number { unit: 'seconds' }
-		},
-		p('google.privateKey')
-	),
-	expiration: now() + |PT3550S|
-}
-```
-
-Example HMAC usage:
+This is a simple example using an HMAC signature:
 
 ```dataweave
 %dw 2.0
@@ -42,62 +12,44 @@ import jwt::HMAC
 output application/json
 ---
 HMAC::JWT({
-            "firstName": "Michael",
-            "lastName": "Jones"
-          }, "Mulesoft123!")
+        "firstName": "Michael", 
+        "lastName": "Jones"
+    }, "d4t4w34v3!")
 ```
 
-# jwt::HMAC Functions
+And this is a more complex example, where the key is an input to the transformation:
 
-## Valid Algorithms
+```dataweave
+%dw 2.0
+import * from jwt::RSA
 
-- HS256
-- HS384
-- HS512
-
-_*NOTE: Header `typ` and `alg` keys are added or overridden automatically.*_
-
-### JWT(header: Object, payload: Object, signingKey: String, algorithm: String): String
-
-Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using `signingKey`, and the algorithm is specified by `algorithm`.
-__________________________________________
-
-### JWT(header: Object, payload: Object, signingKey: String): String
-
-Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using `signingKey` through the HMAC-SHA256 (HS256) algorithm.
-__________________________________________
-
-### JWT(payload: Object, signingKey: String): String
-
-Returns a signed JSON web token with the specified `payload` (body). It is signed using `signingKey` through the HMAC-SHA256 (HS256) algorithm. The header default is `{ "alg": "HS256", "typ": "JWT" }`.
-__________________________________________
-
-# jwt::RSA Functions
-
-## Valid Algorithms
-
-- RS256
-- RS384
-- RS512
-
-_*NOTE: Header `typ` and `alg` keys are added or overridden automatically.*_
-
-
-### JWT(header: Object, payload: Object, privateKey: String, algorithm: String): String
-
-Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using the PKCS#1 or PKCS#8 `privateKey` through the algorithm specified by `algorithm`.
-__________________________________________
-
-### JWT(payload: Object, privateKey: String): String
-
-Returns a signed JSON web token with the specified `header` and `payload` (body). It is signed using the PKCS#1 or PKCS#8 `privateKey` through the algorithm HMAC-SHA256.
+output application/json
+input key application/json
+---
+{
+	token: JWT(
+		{
+			iss: "some@email.com",
+			aud: 'https://oauth2.googleapis.com/token',
+			scope: 'https://www.googleapis.com/auth/drive.readonly',
+			iat: now() as Number { unit: 'seconds' },
+			exp: (now() + |PT3600S|) as Number { unit: 'seconds' }
+		},
+		key
+	),
+	expiration: now() + |PT3550S|
+}
+```
 
 ## Contributions Welcome
 
+Contributions to this project can be made through Pull Requests and Issues on the
+[GitHub Repository](https://github.com/mulesoft/data-weave-jwt-library).
+
 Before creating a pull request review the following:
 
-* [LICENSE](LICENSE.txt)
-* [SECURITY](SECURITY.md)
-* [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)
+* [LICENSE](https://github.com/mulesoft/data-weave-jwt-library/blob/master/LICENSE.txt)
+* [SECURITY](https://github.com/mulesoft/data-weave-jwt-library/blob/master/SECURITY.md)
+* [CODE_OF_CONDUCT](https://github.com/mulesoft/data-weave-jwt-library/blob/master/CODE_OF_CONDUCT.md)
 
 When you submit your pull request, you are asked to sign a contributor license agreement (CLA) if we don't have one on file for you.

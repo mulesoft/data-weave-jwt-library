@@ -1,5 +1,10 @@
 /**
 * This module provides functionality to create signed JSON Web Tokens using HMAC.
+*
+* The supported HMAC algorithms are:
+*  - HS256
+*  - HS384
+*  - HS512
 */
 %dw 2.0
 import HMACBinary from dw::Crypto
