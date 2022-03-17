@@ -129,8 +129,8 @@ fun JWT(header: Object, payload: Object, signingKey: String, algorithm: String) 
 * [%header, cols="1,1,3"]
 * |===
 * | Name | Type | Description
-* | `payload` | Object | JWT payload.
-* | `signingKey` | String | Signing key.
+* | `payload` | `Object` | JWT payload.
+* | `signingKey` | `String` | Signing key.
 * |===
 *
 * === Example
