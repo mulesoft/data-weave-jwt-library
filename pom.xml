@@ -184,6 +184,7 @@
             </repository>
         </distributionManagement>
         </profile>
+    </profiles>
     <pluginRepositories>
         <pluginRepository>
             <id>mule-releases</id>
