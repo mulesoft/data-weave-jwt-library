@@ -23,17 +23,28 @@ jobs:
     needs: deploy_qax
     uses: ./.github/workflows/deploy.yml
     with:
-      server-id: exchange-prod-coco
+      server-id: exchange-prod-us
       mvn-profile: prod-us
-      exchange-org-id: ab149102-a60a-4839-8842-201941a3e117
+      exchange-org-id: 68ef9520-24e9-4cf2-b2f5-620025690913
       environment: prod-us
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_prod_eu:
+    needs: deploy_qax
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-prod-eu
+      mvn-profile: prod-eu
+      exchange-org-id: e0b4a150-f59b-46d4-ad25-5d98f9deb24a
+      environment: prod-eu
     secrets:
       EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
       EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
   tag:
     name: "Tag Release"
     runs-on: ubuntu-latest
-    needs: deploy_prod_us
+    needs: [deploy_prod_us, deploy_prod_eu]
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 1.8
