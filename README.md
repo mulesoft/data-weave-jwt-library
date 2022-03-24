@@ -1,5 +1,7 @@
 # DataWeave JWT Library
 
+[![Build & Test](https://github.com/mulesoft/data-weave-jwt-library/actions/workflows/test.yml/badge.svg)](https://github.com/mulesoft/data-weave-jwt-library/actions/workflows/test.yml)
+
 This library provides functionality to create signed JSON Web Tokens directly on DataWeave with RSA and HMAC signatures.
 
 ## Overview
