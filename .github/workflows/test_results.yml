@@ -2,7 +2,7 @@ name: Unit Test Results
 
 on:
   workflow_run:
-    workflows: ["Compile and Test Library"]
+    workflows: ["Build & Test"]
     types:
       - completed
 
