@@ -7,7 +7,11 @@ on:
 jobs:
   compile_and_test:
     name: "Compile and Test"
-    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK 1.8
@@ -24,7 +28,7 @@ jobs:
       if: always()
       uses: actions/upload-artifact@v2
       with:
-        name: Unit Test Results
+        name: Unit Test Results ${{ matrix.os }}
         path: |
           target/data-weave-test-reports/*.xml
   event_file:
