@@ -43,6 +43,9 @@ input key application/json
 }
 ```
 
+> **_NOTE:_** The `input` directive does not work within Mule because inputs there are managed by Mule itself. In that case, you would be able to reference the `payload` or `vars` directly.
+
+
 ## Contributions Welcome
 
 Contributions to this project can be made through Pull Requests and Issues on the
