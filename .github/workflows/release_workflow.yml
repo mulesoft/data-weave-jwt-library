@@ -43,7 +43,7 @@ jobs:
       EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
   tag:
     name: "Tag Release"
-    runs-on: ubuntu-latest
+    runs-on: mulesoft-ubuntu
     needs: [deploy_prod_us, deploy_prod_eu]
     steps:
       - uses: actions/checkout@v2
