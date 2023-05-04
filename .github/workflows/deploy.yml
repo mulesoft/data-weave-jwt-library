@@ -24,7 +24,7 @@ on:
 jobs:
   DEPLOY_EXTENSION:
     name: "Deploy Library"
-    runs-on: ubuntu-latest
+    runs-on: mulesoft-ubuntu
     environment: ${{ inputs.environment }}
     steps:
     - uses: actions/checkout@v2
