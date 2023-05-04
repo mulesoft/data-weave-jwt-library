@@ -5,7 +5,7 @@ on:
 jobs:
   create_release_branch:
     name: "Create Release Branch"
-    runs-on: ubuntu-latest
+    runs-on: mulesoft-ubuntu
     steps:
       - name: Get App Token
         id: get_workflow_token
@@ -40,7 +40,7 @@ jobs:
           git push --set-upstream origin "release/${{ steps.version.outputs.version }}"
   update_patch:
     name: "Bump patch on master"
-    runs-on: ubuntu-latest
+    runs-on: mulesoft-ubuntu
     steps:
       - name: Get App Token
         id: get_workflow_token
