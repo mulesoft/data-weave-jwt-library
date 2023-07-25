@@ -9,7 +9,7 @@
 * RSA private keys must be in `PKCS#1` or `PKCS#8` format.
 */
 %dw 2.0
-import java!RSAHelper
+import java!org::mule::weave::v2::jwt::RSAHelper
 import jwt::Common
 import fail from dw::Runtime
 
