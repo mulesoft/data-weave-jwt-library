@@ -15,9 +15,9 @@
 
     <properties>
         <revision>1.0.1-SNAPSHOT</revision>
-        <data.weave.version>2.4.0-20220321</data.weave.version>
-        <data.weave.testing.framework.version>1.1.1</data.weave.testing.framework.version>
-        <data.weave.maven.plugin.version>0.2.0</data.weave.maven.plugin.version>
+        <data.weave.version>2.5.0</data.weave.version>
+        <data.weave.testing.framework.version>1.2.2</data.weave.testing.framework.version>
+        <data.weave.maven.plugin.version>0.3.4</data.weave.maven.plugin.version>
         <exchange.orgId>dummy-org-id</exchange.orgId>
 
         <sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
@@ -84,6 +84,9 @@
                         <coverageEnabled>true</coverageEnabled>
                         <coverageFormat>sonar</coverageFormat>
                     </tests>
+                    <packager>
+                        <moduleName>org.mule.weave.library.jwt</moduleName>
+                    </packager>
                     <docs>
                         <homePage>${project.basedir}/README.md</homePage>
                         <favicon>${project.basedir}/src/main/resources/favicon/key-small.png</favicon>
