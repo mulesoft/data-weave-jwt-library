@@ -14,7 +14,7 @@
     <description>JSON Web Token for DataWeave</description>
 
     <properties>
-        <revision>1.0.1-SNAPSHOT</revision>
+        <revision>1.0.1</revision>
         <data.weave.version>2.5.0</data.weave.version>
         <data.weave.testing.framework.version>1.2.2</data.weave.testing.framework.version>
         <data.weave.maven.plugin.version>0.3.4</data.weave.maven.plugin.version>
