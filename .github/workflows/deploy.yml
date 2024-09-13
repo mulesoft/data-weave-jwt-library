@@ -27,9 +27,9 @@ jobs:
     runs-on: mulesoft-ubuntu
     environment: ${{ inputs.environment }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Set up settings for Exchange
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v4
       with:
         java-version: '8'
         distribution: 'adopt'

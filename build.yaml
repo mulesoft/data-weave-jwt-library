@@ -7,3 +7,12 @@ enableMavenDeployStage : false
 enableReleaseStage : false
 mavenSettingsXmlId : "data-weave-maven-settings"
 junitTestResults: "**/target/data-weave-test-reports/TEST-*.xml"
+additionalTestConfigs:
+  jdk11:
+    testJdkTool: OPEN-JDK11
+  jdk17:
+    testJdkTool: OPEN-JDK17
+  arm-jdk17:
+    agentLabel: ubuntu-22.04-arm
+  jdk21:
+    testJdkTool: TEMURIN-JDK21
