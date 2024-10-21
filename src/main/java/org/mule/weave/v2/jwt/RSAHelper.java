@@ -16,9 +16,17 @@ import java.security.spec.RSAPrivateCrtKeySpec;
 import java.util.Base64;
 
 public class RSAHelper {
+    
+    private static final String BEGIN_RSA_PRIVATE_KEY = "BEGIN RSA PRIVATE KEY";
+    private static final String BEGIN_RSA_KEY = "-----" + BEGIN_RSA_PRIVATE_KEY + "-----";
+    private static final String END_RSA_KEY = "-----END RSA PRIVATE KEY-----";
+
+    private static final String BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----";
+    private static final String END_PRIVATE_KEY = "-----END PRIVATE KEY-----";
+    
     public static String signString(String content, String privateKeyContent, String algorithm) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         PrivateKey pk;
-        if (privateKeyContent.contains("RSA"))
+        if (privateKeyContent.contains(BEGIN_RSA_PRIVATE_KEY))
             pk = getPrivatePKCS1Pem(privateKeyContent);
         else
             pk = getPrivatePKCS8Pem(privateKeyContent);
@@ -31,8 +39,8 @@ public class RSAHelper {
     }
 
     private static PrivateKey getPrivatePKCS1Pem(String privateKeyContent) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        privateKeyContent = privateKeyContent.replaceAll("\\n", "").replace("-----BEGIN RSA PRIVATE KEY-----", "")
-                .replace("-----END RSA PRIVATE KEY-----", "");
+        privateKeyContent = privateKeyContent.replaceAll("\\n", "").replace(BEGIN_RSA_KEY, "")
+                .replace(END_RSA_KEY, "");
         byte[] bytes = Base64.getDecoder().decode(privateKeyContent);
 
         RSAPrivateCrtKeySpec keySpec = decodeRSAPrivatePKCS1(bytes);
@@ -42,8 +50,8 @@ public class RSAHelper {
     }
 
     private static PrivateKey getPrivatePKCS8Pem(String privateKeyContent) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        privateKeyContent = privateKeyContent.replaceAll("\\n", "").replace("-----BEGIN PRIVATE KEY-----", "")
-                .replace("-----END PRIVATE KEY-----", "");
+        privateKeyContent = privateKeyContent.replaceAll("\\n", "").replace(BEGIN_PRIVATE_KEY, "")
+                .replace(END_PRIVATE_KEY, "");
         byte[] bytes = Base64.getDecoder().decode(privateKeyContent);
 
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
