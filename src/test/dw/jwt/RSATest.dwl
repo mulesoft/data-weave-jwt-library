@@ -22,7 +22,7 @@ var keyRSAInside= "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASC
             JWT({"firstName": "Michael", "lastName": "Jones"}, key2)
             must equalTo('eyJhbGciOiAiUlMyNTYiLCJ0eXAiOiAiSldUIn0.eyJmaXJzdE5hbWUiOiAiTWljaGFlbCIsImxhc3ROYW1lIjogIkpvbmVzIn0.hpguwFknfGlQ3xV1dVcICykcKjeUXfsNV65FUdJqxDC0lSMV42DH0vOuycpD3NWDg1dvdRb3f0kyk-Zze44RoQ')
         },
-        "It should generate JWT with payload and key [PKCS1] when key contains 'RSA' string value" in do {
+        "It should generate JWT with payload and key [PKCS8] when key contains 'RSA' string value" in do {
           JWT({"firstName": "Michael", "lastName": "Jones"}, keyRSAInside)
           must equalTo('eyJhbGciOiAiUlMyNTYiLCJ0eXAiOiAiSldUIn0.eyJmaXJzdE5hbWUiOiAiTWljaGFlbCIsImxhc3ROYW1lIjogIkpvbmVzIn0.A57lqrxLLyYS3Ze9iBVHbnWbv5rp5OlhgnGqsgg31cQgaHAdcO-lobXcx_c1LoLbUQMcy_OS5HPCh3swTLumyAZedh0kO_Oukvv6tzrp79euP72rMOThe4KwGwIhJ0codrbYkDp7M_bMK9dxQGzTaJQ1W6f2c61ugmLIreS8UI0Z6UO8q1ZDImuYDgFWeFiiTlHQ2KmLB06xOngqCUFPAYqNHRUwirkt8kzkw4AZqNDq2qngibQg-FRFspMufkMcYP6-R4sP2taJ1LLMBXSJQ44DWwbik4urUgxMQPPSFQwvStJ05PCw6JmCmRgIPyNCEAP5moUW87eXYJ5D-h0amA')
         }
