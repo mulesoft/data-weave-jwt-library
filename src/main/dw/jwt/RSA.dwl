@@ -55,7 +55,24 @@ fun signJWT(jwt: String, privateKey: String, algorithm: String) : String =
     RSAHelper::signString(jwt, privateKey, algorithm)
 
 
-
+/**
+* Helper function to sign the JWT with keystore.
+*
+* === Parameters
+*
+* [%header, cols="1,1,3"]
+* |===
+* | Name | Type | Description
+* | `jwt` | `String` | Header and payload parts of the JWT.
+* | `signingKey` | `String` | Signing key.
+* | `keystorePath` | `String` | Key Store path
+* | `keystoreType` | `String` | Supported values: PKCS12 or JKS
+* | `keystorePassword` | `String` | Keystore password
+* | `keyAlias` | `String` | Key alias in keystore
+* | `algorithm` | `String` | RSA algorithm.
+* |===
+*
+*/
 fun signJWTWithKeyStore(jwt: String, keystorePath: String, keystoreType: String, keystorePassword: String, keyAlias: String, algorithm: String) : String =
     RSAHelper::signStringWithKeyStore(jwt, keystorePath, keystoreType, keystorePassword, keyAlias, algorithm)
 
