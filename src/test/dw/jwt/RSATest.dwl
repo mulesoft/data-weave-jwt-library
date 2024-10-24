@@ -25,6 +25,42 @@ var keyRSAInside= "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASC
         "It should generate JWT with payload and key [PKCS8] when key contains 'RSA' string value" in do {
           JWT({"firstName": "Michael", "lastName": "Jones"}, keyRSAInside)
           must equalTo('eyJhbGciOiAiUlMyNTYiLCJ0eXAiOiAiSldUIn0.eyJmaXJzdE5hbWUiOiAiTWljaGFlbCIsImxhc3ROYW1lIjogIkpvbmVzIn0.A57lqrxLLyYS3Ze9iBVHbnWbv5rp5OlhgnGqsgg31cQgaHAdcO-lobXcx_c1LoLbUQMcy_OS5HPCh3swTLumyAZedh0kO_Oukvv6tzrp79euP72rMOThe4KwGwIhJ0codrbYkDp7M_bMK9dxQGzTaJQ1W6f2c61ugmLIreS8UI0Z6UO8q1ZDImuYDgFWeFiiTlHQ2KmLB06xOngqCUFPAYqNHRUwirkt8kzkw4AZqNDq2qngibQg-FRFspMufkMcYP6-R4sP2taJ1LLMBXSJQ44DWwbik4urUgxMQPPSFQwvStJ05PCw6JmCmRgIPyNCEAP5moUW87eXYJ5D-h0amA')
-        }
+        },
+        "It should generate JWT with payload and key [PKCS8] when using key in a PKCS12 keystore" in do {
+                    JWTWithKeyStore(
+                    		{},
+                    		{
+                                "iss": "foo,bar",
+                                "sub": "bar.foo",
+                                "aud": "https://foo.bar",
+                                "iat": 1729766838,
+                                "exp": 1729770438
+                            },
+                    		'foo.p12',
+                    		'PKCS12',
+                    		'foo',
+                    		'foo.bar',
+                    		'Sha256withRSA'
+                    	)
+                    must equalTo('eyJhbGciOiAiUlMyNTYiLCJ0eXAiOiAiSldUIn0.eyJpc3MiOiAiZm9vLGJhciIsInN1YiI6ICJiYXIuZm9vIiwiYXVkIjogImh0dHBzOi8vZm9vLmJhciIsImlhdCI6IDE3Mjk3NjY4MzgsImV4cCI6IDE3Mjk3NzA0Mzh9.oyD6DLIBKDJJ0GOgd7kdhoHAVoCtgSpgEkMhBiV7x69qwYZ3bvTmm5EIljHnPUMeR9aK_yh_A7-ZRO2kA6w94pGqBXnABrsiBbHC4U-2cIzJkq-WBQcSsY8TQtCiaBdhsD3Lp3Gr6kl0q5_AgMnhNG3i_0p8-mQ4FcsTPwNsbSGV4lGVB5IbfYtpmLenpLTIt0aGplD0LLrpBIF7MlOpK5H4SLuILyRhw5d1NSHVmIUwk1u5x9gY1zq7C52ND_HdFa_EvOKO8sxcVk39h5I0CzNdr8arIy1bnTkR86GAt3vS_62YNOeRtD46WE7d0L7ZtFme-Iw0LGJ9Vl1n5OmkIw')
+        },
+        "It should generate JWT with payload and key [PKCS8] when using key in a JKS keystore" in do {
+                    JWTWithKeyStore(
+                            {},
+                            {
+                                "iss": "foo,bar",
+                                "sub": "bar.foo",
+                                "aud": "https://foo.bar",
+                                "iat": 1729766838,
+                                "exp": 1729770438
+                            },
+                            'foo.jks',
+                            'JKS',
+                            'foo',
+                            'foo.bar',
+                            'Sha256withRSA'
+                        )
+                    must equalTo('eyJhbGciOiAiUlMyNTYiLCJ0eXAiOiAiSldUIn0.eyJpc3MiOiAiZm9vLGJhciIsInN1YiI6ICJiYXIuZm9vIiwiYXVkIjogImh0dHBzOi8vZm9vLmJhciIsImlhdCI6IDE3Mjk3NjY4MzgsImV4cCI6IDE3Mjk3NzA0Mzh9.oyD6DLIBKDJJ0GOgd7kdhoHAVoCtgSpgEkMhBiV7x69qwYZ3bvTmm5EIljHnPUMeR9aK_yh_A7-ZRO2kA6w94pGqBXnABrsiBbHC4U-2cIzJkq-WBQcSsY8TQtCiaBdhsD3Lp3Gr6kl0q5_AgMnhNG3i_0p8-mQ4FcsTPwNsbSGV4lGVB5IbfYtpmLenpLTIt0aGplD0LLrpBIF7MlOpK5H4SLuILyRhw5d1NSHVmIUwk1u5x9gY1zq7C52ND_HdFa_EvOKO8sxcVk39h5I0CzNdr8arIy1bnTkR86GAt3vS_62YNOeRtD46WE7d0L7ZtFme-Iw0LGJ9Vl1n5OmkIw')
+        },
     ],
 ]

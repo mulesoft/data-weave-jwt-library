@@ -1,29 +1,26 @@
 package org.mule.weave.v2.jwt;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Signature;
-import java.security.SignatureException;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateCrtKeySpec;
 import java.util.Base64;
 
 public class RSAHelper {
-    
+
     private static final String BEGIN_RSA_PRIVATE_KEY = "BEGIN RSA PRIVATE KEY";
     private static final String BEGIN_RSA_KEY = "-----" + BEGIN_RSA_PRIVATE_KEY + "-----";
     private static final String END_RSA_KEY = "-----END RSA PRIVATE KEY-----";
 
     private static final String BEGIN_PRIVATE_KEY = "-----BEGIN PRIVATE KEY-----";
     private static final String END_PRIVATE_KEY = "-----END PRIVATE KEY-----";
-    
+
     public static String signString(String content, String privateKeyContent, String algorithm) throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException, IOException, SignatureException {
         PrivateKey pk;
         if (privateKeyContent.contains(BEGIN_RSA_PRIVATE_KEY))
@@ -38,15 +35,45 @@ public class RSAHelper {
         return Base64.getUrlEncoder().encodeToString(s).replace("=", "");
     }
 
-    private static PrivateKey getPrivatePKCS1Pem(String privateKeyContent) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    public static String signStringWithKeyStore(String content, String keystorePath, String keystoreType, String keystorePassword, String keyAlias, String algorithm) throws NoSuchAlgorithmException, IOException, KeyStoreException, CertificateException, UnrecoverableKeyException, InvalidKeyException, SignatureException {
+        PrivateKey pk = getPrivatePKCS8Pem(keystorePath, keystoreType, keystorePassword, keyAlias);
+        Signature privateSignature = Signature.getInstance(algorithm);
+        privateSignature.initSign(pk);
+        privateSignature.update(content.getBytes(StandardCharsets.UTF_8));
+        byte[] s = privateSignature.sign();
+        return Base64.getUrlEncoder().encodeToString(s).replace("=", "");
+    }
+
+    private static PrivateKey getPrivatePKCS1Pem(String privateKeyContent) throws NoSuchAlgorithmException, InvalidKeySpecException {
         privateKeyContent = privateKeyContent.replaceAll("\\n", "").replace(BEGIN_RSA_KEY, "")
                 .replace(END_RSA_KEY, "");
         byte[] bytes = Base64.getDecoder().decode(privateKeyContent);
 
         RSAPrivateCrtKeySpec keySpec = decodeRSAPrivatePKCS1(bytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-        return privateKey;
+        return keyFactory.generatePrivate(keySpec);
+    }
+
+    private static PrivateKey getPrivatePKCS8Pem(String keystorePath, String keystoreType, String keystorePassword, String keyAlias) throws NoSuchAlgorithmException, KeyStoreException, IOException, CertificateException, UnrecoverableKeyException {
+        KeyStore keystore = KeyStore.getInstance(keystoreType);
+
+        InputStream is = RSAHelper.class.getClassLoader().getResourceAsStream(keystorePath);
+
+        keystore.load(is, keystorePassword.toCharArray());
+
+        // Get the private key entry
+        if (!keystore.containsAlias(keyAlias)) {
+            throw new IllegalArgumentException("Alias not found: " + keyAlias);
+        }
+
+        // Get the private key - for PKCS12, the key password is the same as the keystore password
+
+        // Convert to PKCS8 format and encode as Base64
+
+        return (PrivateKey) keystore.getKey(
+                keyAlias,
+                keystorePassword.toCharArray()
+        );
     }
 
     private static PrivateKey getPrivatePKCS8Pem(String privateKeyContent) throws InvalidKeySpecException, NoSuchAlgorithmException {
@@ -56,8 +83,7 @@ public class RSAHelper {
 
         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(bytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-        PrivateKey privateKey = keyFactory.generatePrivate(keySpec);
-        return privateKey;
+        return keyFactory.generatePrivate(keySpec);
     }
 
     private static RSAPrivateCrtKeySpec decodeRSAPrivatePKCS1(byte[] encoded) {
