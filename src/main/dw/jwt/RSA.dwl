@@ -54,6 +54,11 @@ fun alg(algorithm: String) : String | Null =
 fun signJWT(jwt: String, privateKey: String, algorithm: String) : String =
     RSAHelper::signString(jwt, privateKey, algorithm)
 
+
+
+fun signJWTWithKeyStore(jwt: String, keystorePath: String, keystoreType: String, keystorePassword: String, keyAlias: String, algorithm: String) : String =
+    RSAHelper::signStringWithKeyStore(jwt, keystorePath, keystoreType, keystorePassword, keyAlias, algorithm)
+
 /**
 * Generate JWT with header, payload, and signature by specific algorithm.
 *
@@ -78,7 +83,7 @@ fun signJWT(jwt: String, privateKey: String, algorithm: String) : String =
 * ----
 * %dw 2.0
 * import * from jwt::RSA
-* 
+*
 * output application/json
 * input key application/json
 * ---
@@ -143,7 +148,7 @@ fun JWT(header: Object, payload: Object, signingKey: String, algorithm: String) 
 * ----
 * %dw 2.0
 * import * from jwt::RSA
-* 
+*
 * output application/json
 * input key application/json
 * ---
@@ -176,3 +181,73 @@ fun JWT(header: Object, payload: Object, signingKey: String, algorithm: String) 
 */
 fun JWT(payload: Object, signingKey: String) : String =
     JWT({}, payload, signingKey, "Sha256withRSA")
+
+
+/**
+* Generate JWT with header, payload, and signature by specific algorithm.
+*
+* === Parameters
+*
+* [%header, cols="1,1,3"]
+* |===
+* | Name | Type | Description
+* | `header` | `Object` | JWT header.
+* | `payload` | `Object` | JWT payload.
+* | `signingKey` | `String` | Signing key.
+* | `keystorePath` | `String` | Key Store path
+* | `keystoreType` | `String` | Supported values: PKCS12 or JKS
+* | `keystorePassword` | `String` | Keystore password
+* | `keyAlias` | `String` | Key alias in keystore
+* |===
+*
+* === Example
+*
+* This example shows how the `JWT` behaves with the sample input.
+*
+* ==== Source
+*
+* [source,DataWeave,linenums]
+* ----
+*%dw 2.0
+*import * from jwt::RSA
+*
+*output application/json
+*---
+*{
+*	token: JWTWithKeyStore(
+*		{},
+*		{
+*			"iss": "foo,bar",
+*			"sub": "bar.foo",
+*			"aud": "https://foo.bar",
+*			"iat": 1729766838,
+*			"exp": 1729770438
+*  		},
+*		'foo.p12',
+*		'PKCS12',
+*		'foo',
+*		'foo.bar',
+*		'Sha256withRSA'
+*	),
+*	expiration: now() + |PT3550S|
+*}
+* ----
+*
+* ==== Output
+*
+* [source,Json,linenums]
+* ----
+* {
+*    token: "eyJhbGCI6IkpXVCJ9.eyJ4iLCJpYXQiOjE0MjI3Nzk2Mzh9.gzSraSYS8EXBxLN_oWnFSRgCz",
+*    "expiration": "2031-11-18T15:11:31.060175Z"
+* }
+* ----
+*
+*/
+fun JWTWithKeyStore(header: Object, payload: Object, keystorePath: String, keystoreType: String, keystorePassword: String, keyAlias: String, algorithm: String) : String = do {
+    var jwt = Common::JWT(
+    { (header - "alg" - "typ"), alg: alg(algorithm), typ: 'JWT' },
+    payload)
+    ---
+    "$(jwt).$(signJWTWithKeyStore(jwt, keystorePath, keystoreType, keystorePassword, keyAlias,  algorithm))"
+}
