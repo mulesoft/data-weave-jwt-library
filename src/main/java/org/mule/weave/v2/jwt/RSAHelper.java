@@ -59,6 +59,10 @@ public class RSAHelper {
 
         InputStream is = RSAHelper.class.getClassLoader().getResourceAsStream(keystorePath);
 
+        if (is == null || keystorePath.isEmpty()){
+            throw new IllegalArgumentException("Keystore file not found: " + keystorePath);
+        }
+
         keystore.load(is, keystorePassword.toCharArray());
 
         // Get the private key entry
