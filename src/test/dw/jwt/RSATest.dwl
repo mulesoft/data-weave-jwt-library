@@ -78,9 +78,10 @@ var keyRSAInside= "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASC
                                                                   'foo',
                                                                   'foo.bar',
                                                                   'Sha256withRSA'
-                                                              )).error.message must  contain('Keystore file not found')
-
-
+                                                              )) must  [
+                                                               $.success is false,
+                                                               $.error.message contains  'Keystore file not found'
+                                                              ]
         },
         "It should return an IllegalArgumentException with invalid key alias" in do {
                                     try(() -> JWTWithKeyStore(
@@ -97,7 +98,10 @@ var keyRSAInside= "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASC
                                                                           'foo',
                                                                           'bar.foo',
                                                                           'Sha256withRSA'
-                                                                      )).error.message must  contain('Alias not found')
+                                                                      )) must  [
+                                                                        $.success is false,
+                                                                        $.error.message contains  'Alias not found'
+                                                                      ]
 
 
         },
