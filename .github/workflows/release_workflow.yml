@@ -41,6 +41,28 @@ jobs:
     secrets:
       EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
       EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_prod_ca:
+    needs: deploy_qax
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-prod-ca
+      mvn-profile: prod-ca
+      exchange-org-id: e5211ebb-d6db-4c74-8485-2ab80c055188
+      environment: falcon-prod-ca
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_prod_jp:
+    needs: deploy_qax
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-prod-jp
+      mvn-profile: prod-jp
+      exchange-org-id: 373796f6-6566-4117-9484-ac52c1a425da
+      environment: falcon-prod-jp
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
   tag:
     name: "Tag Release"
     runs-on: mulesoft-ubuntu
