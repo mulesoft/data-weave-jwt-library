@@ -19,6 +19,17 @@ jobs:
     secrets:
       EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
       EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_falcon_test:
+    needs: compile_test
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-test-falcon
+      mvn-profile: test-ca
+      exchange-org-id: 7e5913f6-95c2-4af4-8070-96bed4804c51
+      environment: falcon-test
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
   deploy_prod_us:
     needs: deploy_qax
     uses: ./.github/workflows/deploy.yml
