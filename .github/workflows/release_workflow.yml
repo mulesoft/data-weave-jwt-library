@@ -19,6 +19,17 @@ jobs:
     secrets:
       EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
       EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_falcon_test:
+    needs: compile_test
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-test-falcon
+      mvn-profile: test-ca
+      exchange-org-id: 7e5913f6-95c2-4af4-8070-96bed4804c51
+      environment: falcon-test
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
   deploy_prod_us:
     needs: deploy_qax
     uses: ./.github/workflows/deploy.yml
@@ -38,6 +49,28 @@ jobs:
       mvn-profile: prod-eu
       exchange-org-id: e0b4a150-f59b-46d4-ad25-5d98f9deb24a
       environment: prod-eu
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_prod_ca:
+    needs: deploy_qax
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-prod-ca
+      mvn-profile: prod-ca
+      exchange-org-id: e5211ebb-d6db-4c74-8485-2ab80c055188
+      environment: falcon-prod-ca
+    secrets:
+      EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
+      EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}
+  deploy_prod_jp:
+    needs: deploy_qax
+    uses: ./.github/workflows/deploy.yml
+    with:
+      server-id: exchange-prod-jp
+      mvn-profile: prod-jp
+      exchange-org-id: 373796f6-6566-4117-9484-ac52c1a425da
+      environment: falcon-prod-jp
     secrets:
       EXCHANGE_USERNAME: ${{ secrets.EXCHANGE_USERNAME }}
       EXCHANGE_PASSWORD: ${{ secrets.EXCHANGE_PASSWORD }}

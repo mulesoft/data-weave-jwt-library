@@ -195,6 +195,57 @@
             </repository>
         </distributionManagement>
         </profile>
+        <profile>
+        <id>test-ca</id>
+        <repositories>
+            <repository>
+                <id>exchange-test-falcon</id>
+                <name>TEST CA Exchange</name>
+                <url>https://maven.test1.platform.mulesoft.com/api/v3/maven</url>
+            </repository>
+        </repositories>
+        <distributionManagement>
+            <repository>
+                <id>exchange-test-falcon</id>
+                <name>TEST CA Exchange</name>
+                <url>https://maven.test1.platform.mulesoft.com/api/v3/organizations/${exchange.orgId}/maven</url>
+            </repository>
+        </distributionManagement>
+        </profile>
+        <profile>
+        <id>prod-ca</id>
+        <repositories>
+            <repository>
+                <id>exchange-prod-ca</id>
+                <name>PROD CA Exchange</name>
+                <url>https://maven.ca1.platform.mulesoft.com/api/v3/maven</url>
+            </repository>
+        </repositories>
+        <distributionManagement>
+            <repository>
+                <id>exchange-prod-ca</id>
+                <name>PROD CA Exchange</name>
+                <url>https://maven.ca1.platform.mulesoft.com/api/v3/organizations/${exchange.orgId}/maven</url>
+            </repository>
+        </distributionManagement>
+        </profile>
+        <profile>
+        <id>prod-jp</id>
+        <repositories>
+            <repository>
+                <id>exchange-prod-jp</id>
+                <name>PROD JP Exchange</name>
+                <url>https://maven.jp1.platform.mulesoft.com/api/v3/maven</url>
+            </repository>
+        </repositories>
+        <distributionManagement>
+            <repository>
+                <id>exchange-prod-jp</id>
+                <name>PROD JP Exchange</name>
+                <url>https://maven.jp1.platform.mulesoft.com/api/v3/organizations/${exchange.orgId}/maven</url>
+            </repository>
+        </distributionManagement>
+        </profile>
     </profiles>
     <pluginRepositories>
         <pluginRepository>
